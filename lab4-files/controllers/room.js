@@ -6,6 +6,7 @@ const Messages = require('../models/Messages');
 
 function getRoom(request, response){
     if (request.params.roomName != 'favicon.ico'){
+        var roomName = request.params.roomName;
         const newRoom = new Room(
                 {
                     room_name: request.params.roomName,
@@ -14,6 +15,7 @@ function getRoom(request, response){
                 .save()
                 .then(item => console.log(item))
                 .catch(err => console.log(err));
+                response.cookie('roomName',roomName)
                 response.render('room', {roomName: request.params.roomName});
             };   
 }

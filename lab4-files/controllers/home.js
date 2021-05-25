@@ -8,7 +8,7 @@ function getHome(request, response){
   
   Room.find().lean().then(items =>
     {
-        response.render('home', {title: 'homeeee', rooms: items, isAvailable: true});
+        response.render('home', {title: 'home', rooms: items, isAvailable: true});
     })
 }
 

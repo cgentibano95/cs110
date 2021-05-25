@@ -11,7 +11,12 @@ const Messages = new Schema({
   },
   user: {
     type: String,
+  },
+  date:{
+    type: String,
+    default: new Date()
   }
+
 });
 
 module.exports = Item = mongoose.model('message', Messages);

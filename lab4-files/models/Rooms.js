@@ -7,7 +7,7 @@ const ChatRooms = new Schema({
   },
   message:{
     type: String
-  }
+  },
 });
 
 module.exports = Item = mongoose.model('room', ChatRooms);

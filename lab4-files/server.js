@@ -38,17 +38,30 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 
+var curr_room = ""
 
 app.post('/roomName', (req, res) =>{
+    curr_room = req.body.room;
     res.redirect(req.body.room);
 })
 
 app.post('/createMessage', (req, res) =>{
+  const options = {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    timeZone: "America/Los_Angeles",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
 
   const newMessage = new Messages({
     room_id: req.body.room_name,
     user: req.body.username,
-    message: req.body.message
+    message: req.body.message,
+    date: new Date().toLocaleDateString("en-US", options),
   })
   newMessage
   .save()
@@ -58,18 +71,14 @@ app.post('/createMessage', (req, res) =>{
 
 
 app.get("/getMessages", (req, res)=>{
-  
-  Messages.find().lean().then(items => {
-    res.json(items)
-})
-})
 
-
+  Messages.find({room_id: req.cookies.roomName}).lean().then(items => 
+  {
+    res.json(items);
+  })
+})
 
 app.get('/', homeHandler.getHome);
 app.get('/:roomName', roomHandler.getRoom);
-
-
-
 
 app.listen(port, () => console.log(`Server listening on http://localhost:${port}`));
